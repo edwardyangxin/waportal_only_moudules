@@ -5,7 +5,6 @@ import { Component } from "@angular/core"
 // import { HeroesComponent } from "./heroes.component"
 // import { HeroService } from "./hero.service"
 
-import './rxjs-operators';
 
 @Component({
   selector: 'my-app',

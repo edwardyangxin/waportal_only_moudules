@@ -7,6 +7,7 @@ import { HeroesComponent } from './heroes.component';
 import { HeroDetailComponent } from './hero-detail.component';
 import { DashboardComponent } from './dashboard.component';
 import { Test1Component } from './test1.component';
+import { Material2AppAppComponent } from './material2-app.component';
 
 const appRoutes: Routes = [
   {
@@ -28,6 +29,9 @@ const appRoutes: Routes = [
   },{
     path: 'test1',
     component: Test1Component
+  },{
+    path: 'material2-app',
+    component: Material2AppAppComponent
   },
 ];
 

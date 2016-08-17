@@ -12,6 +12,7 @@
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     'rxjs':                       'node_modules/rxjs',
     'primeng':                    'node_modules/primeng',
+    '@angular2-material':         'node_modules/@angular2-material',
   };
 
   // packages tells the System loader how to load when no filename and/or no extension
@@ -21,6 +22,36 @@
     'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
     'primeng':                    { defaultExtension: 'js' },
   };
+
+  var materialComponents = [
+    'button',
+    'card',
+    'core',
+    'checkbox',
+    'grid-list',
+    'icon',
+    'input',
+    'list',
+    'menu',
+    'progress-bar',
+    'progress-circle',
+    'radio',
+    'sidenav',
+    'slider',
+    'slide-toggle',
+    'button-toggle',
+    'tabs',
+    'toolbar',
+    'tooltip',
+  ];
+
+  materialComponents.forEach(function(name){
+    packages['@angular2-material/'+name] = {
+      format: 'cjs',
+      defaultExtension: 'js',
+      main: name+'.js',
+    };
+});
 
   var ngPackageNames = [
     'common',

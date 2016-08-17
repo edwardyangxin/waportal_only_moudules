@@ -1,7 +1,56 @@
-<h1>{{title}}</h1>
-<nav>
-  <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-  <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
-  <a routerLink="/test1" routerLinkActive="active">Test1</a>
-</nav>
-<router-outlet></router-outlet>
+<md-sidenav-layout>
+  <md-sidenav #sidenav mode="side" class="app-sidenav app-menu md-sidenav-over md-sidenav-opened">
+    <md-toolbar>
+      <div class="md-toolbar-layout">
+        <md-toolbar-row><h3>菜单</h3></md-toolbar-row>
+      </div>
+    </md-toolbar>
+    <md-list>
+      <md-list-item role="listitem">
+        <div class="md-no-style md-list-item-inner">
+          <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        </div>
+        <div class="md-ripple-container"></div>
+      </md-list-item>
+      <md-list-item role="listitem">
+        <div class="md-no-style md-list-item-inner">
+          <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
+        </div>
+        <div class="md-ripple-container"></div>
+      </md-list-item>
+      <md-list-item role="listitem">
+        <div class="md-no-style md-list-item-inner">
+          <a routerLink="/test1" routerLinkActive="active">Test1</a>
+        </div>
+        <div class="md-ripple-container"></div>
+      </md-list-item>
+    </md-list>
+  </md-sidenav>
+
+  <md-toolbar color="primary">
+    <button class="app-icon-button" (click)="sidenav.toggle()">
+      <i class="material-icons app-toolbar-menu">menu</i>
+    </button>
+
+    my-demo
+
+    <span class="app-toolbar-filler"></span>
+  </md-toolbar>
+
+  <div class="app-content">
+
+    <md-card>
+      <h1>{{title}}</h1>
+    </md-card>
+
+    <md-card>
+      <router-outlet></router-outlet>
+    </md-card>
+
+  </div>
+
+</md-sidenav-layout>
+
+<span class="app-action">
+  <button md-fab><md-icon>check circle</md-icon></button>
+</span>
