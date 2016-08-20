@@ -1,0 +1,25 @@
+<p-dataTable [value]="records" selectionMode="multiple" [(selection)]="selectedRecords" [rows]="20" [paginator]="true"
+             [lazy]="true" [totalRecords]="totalRecords" (onLazyLoad)="loadRecordLazy($event)">
+    <header>
+      <button pButton type="button" (click)="onAddRecord()" label="新建应用"></button>
+      <button pButton type="button" (click)="onDeleteRecord()" label="删除应用"></button>
+    </header>
+    <p-column field="appName" header="应用"></p-column>
+    <p-column field="appVersion" header="应用"></p-column>
+    <p-column field="os" header="应用"></p-column>
+    <p-column field="project" header="应用"></p-column>
+    <p-column field="uploadBy" header="应用"></p-column>
+    <p-column field="projectLeader" header="负责人"></p-column>
+    <p-column field="ts" header="创建时间"></p-column>
+    <p-column header="操作" styleClass="col-button">
+      <template let-car="rowData">
+        <button type="button" pButton (click)="selectRecord(record)" icon="fa-search"></button>
+      </template>
+    </p-column>
+</p-dataTable>
+
+<p-dialog header="上传应用" [(visible)]="display" [modal]="modal">
+
+</p-dialog>
+
+<app-upload-form></app-upload-form>

@@ -1,7 +1,7 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
-import { HttpModule, XHRBackend, HTTP_PROVIDERS } from '@angular/http';
+import { HttpModule, JsonpModule ,XHRBackend, HTTP_PROVIDERS } from '@angular/http';
 
 import {MATERIAL_PROVIDERS} from "ng2-material";
 
@@ -10,9 +10,6 @@ import { InMemoryDataService }               from './in-memory-data.service';
 
 import { AppComponent }  from './app.component';
 import { routing } from './app.routes';
-
-import { HeroesComponent }  from './heroes.component';
-import { HeroDetailComponent }  from './hero-detail.component';
 
 import { HeroService }  from './hero.service';
 import { DashboardComponent } from './dashboard.component';
@@ -39,6 +36,15 @@ import {PortalModule} from '@angular2-material/core/portal/portal-directives';
 import {OverlayModule} from '@angular2-material/core/overlay/overlay-directives';
 import {MdMenuModule} from '@angular2-material/menu/menu';
 import {RtlModule} from '@angular2-material/core/rtl/dir';
+import {SharedModule} from "./sharedModule/shared.module";
+import {ProjectComponent} from "./projectManagement/project.component";
+import {ProjectTableComponent} from "./projectManagement/projectTable/projectTable.component";
+import {HeroListComponent} from "./hero-list.component";
+import {ProjectTableService} from "./projectManagement/projectTable/projectTableService";
+import {DataTable} from 'primeng/primeng';
+import {Column} from 'primeng/primeng';
+import {ProjectFormComponent} from "./projectManagement/projectTable/projectForm/project-form.component";
+import {ProjectManagementModule} from "./projectManagement/project.module";
 
 @NgModule({
   imports: [
@@ -46,6 +52,7 @@ import {RtlModule} from '@angular2-material/core/rtl/dir';
     FormsModule,
     routing,
     HttpModule,
+    JsonpModule,
     MdButtonModule,
     MdButtonToggleModule,
     MdCardModule,
@@ -68,16 +75,21 @@ import {RtlModule} from '@angular2-material/core/rtl/dir';
     OverlayModule,
     PortalModule,
     RtlModule,
+    // ProjectManagementModule,
+    // SharedModule.forRoot(),
   ],
   declarations: [
     AppComponent,
-    HeroesComponent,
+    HeroListComponent,
     DashboardComponent,
-    HeroDetailComponent
+    ProjectComponent,
+    ProjectTableComponent,
+    ProjectFormComponent,
   ],
   providers: [
     HeroService,
-    HTTP_PROVIDERS
+    // HTTP_PROVIDERS,
+    ProjectTableService
   ],
   bootstrap: [ AppComponent ]
 })

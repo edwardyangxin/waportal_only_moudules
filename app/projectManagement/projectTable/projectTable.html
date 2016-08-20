@@ -1,0 +1,22 @@
+<p-dataTable [value]="records" selectionMode="multiple" [(selection)]="selectedRecords" [rows]="20" [paginator]="true"
+             [lazy]="true" [totalRecords]="totalRecords" (onLazyLoad)="loadRecordLazy($event)">
+    <header>
+      <button pButton type="button" (click)="onAddRecord()" label="新建项目"></button>
+      <button pButton type="button" (click)="onDeleteRecord()" label="删除项目"></button>
+    </header>
+    <p-column field="projectName" header="项目"></p-column>
+    <p-column field="projectLeader" header="负责人"></p-column>
+    <p-column field="ts" header="创建时间"></p-column>
+</p-dataTable>
+
+<p-dialog header="创建项目" [(visible)]="display" [modal]="modal">
+  <project-new-form></project-new-form>
+  <!--<footer>-->
+    <!--<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">-->
+      <!--<button type="button" pButton icon="fa-close" (click)="display=false" label="No"></button>-->
+      <!--<button type="button" pButton icon="fa-check" (click)="display=false" label="Yes"></button>-->
+    <!--</div>-->
+  <!--</footer>-->
+</p-dialog>
+
+<project-new-form></project-new-form>

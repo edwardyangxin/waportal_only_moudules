@@ -1,69 +1,37 @@
-/**
- * Created by sevncz on 16-8-11.
- */
+// Observable Version
+import { Injectable }     from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Headers, RequestOptions } from '@angular/http';
 
-import { Injectable } from "@angular/core";
-import { Headers, Http, Response } from '@angular/http';
-
-import 'rxjs/add/operator/toPromise';
-
-import { Hero } from './hero.ts'
-
+import { Hero }           from './hero';
 import { Observable }     from 'rxjs/Observable';
 
-
-
-
 @Injectable()
-export class HeroService{
-  private heroesUrl = 'http://127.0.0.1:5017/fauth/web/bg/users';  // URL to web api
-  // private heroesUrl = 'app/heroes';  // URL to web api
+export class HeroService {
+  constructor (private http: Http) {}
 
-  constructor(private http: Http) { }
+  private heroesUrl = 'app/heroes.json';  // URL to web API
 
-  getHero(id: number){
-    return {id: 1, name: 'hellll'};
-  }
-
-  getHeroes(): Observable<Hero[]>{
-    // return this.http.get(this.heroesUrl)
-    //   .toPromise()
-    //   .then(response => response.json().data as Hero[])
-    //   .catch(this.handleError);
+  getHeroes (): Observable<Hero[]> {
     return this.http.get(this.heroesUrl)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  // save(hero: Hero): Promise<Hero>{
-  //   if (hero.id) {
-  //     return this.put(hero);
-  //   }
-  //   return this.post(hero);
-  // }
-  //
-  // private post(hero: Hero): Promise<Hero>{
-  //   let headers = new Headers({
-  //     'Content-Type': 'appication/json'
-  //   });
-  //   return this.http.post(this.heroesUrl, JSON.stringify(hero), {headers: headers})
-  //     .toPromise()
-  //     .then(res => res.json().data)
-  //     .catch(this.handleError);
-  // }
-  //
-  // private put(hero: Hero): Promise<Hero>{
-  //   let headers = new Headers();
-  //   headers.append('Content-Type', 'application/json');
-  //
-  //   let url = `${this.heroesUrl}/${hero.id}`;
-  //   console.log(url);
-  //
-  //   return this.http.put(this.heroesUrl, JSON.stringify(hero), {headers: headers})
-  //     .toPromise()
-  //     .then(res => res.json().data)
-  //     .catch(this.handleError);
-  // }
+  addHero (name: string): Observable<Hero> {
+    let body = JSON.stringify({ name });
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(this.heroesUrl, body, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  private extractData(res: Response) {
+    let body = res.json();
+    return body.data || { };
+  }
 
   private handleError (error: any) {
     // In a real world app, we might use a remote logging infrastructure
@@ -73,11 +41,15 @@ export class HeroService{
     console.error(errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
-
-  private extractData(res: Response) {
-    let body = res.json();
-    return body || { };
-  }
-
 }
 
+/*
+ private heroesUrl = 'app/heroes.json'; // URL to JSON file
+ */
+
+
+/*
+ Copyright 2016 Google Inc. All Rights Reserved.
+ Use of this source code is governed by an MIT-style license that
+ can be found in the LICENSE file at http://angular.io/license
+ */

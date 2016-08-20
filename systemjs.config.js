@@ -12,6 +12,7 @@
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     'rxjs':                       'node_modules/rxjs',
     'primeng':                    'node_modules/primeng',
+    'hammer':                    'node_modules/hammerjs',
     '@angular2-material':         'node_modules/@angular2-material',
   };
 
@@ -21,6 +22,7 @@
     'rxjs':                       { defaultExtension: 'js' },
     'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
     'primeng':                    { defaultExtension: 'js' },
+    'hammer': {defaultExtension: 'js' }
   };
 
   var materialComponents = [
