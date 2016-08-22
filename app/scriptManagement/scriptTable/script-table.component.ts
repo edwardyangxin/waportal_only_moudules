@@ -1,28 +1,31 @@
 import {OnInit, Component} from "@angular/core";
-import {ProjectEntity} from "./projectEntity";
-import {ProjectTableService} from "./projectTableService";
 
-import {DataTable, LazyLoadEvent, Column, Dialog, Header, Button} from 'primeng/primeng';
+import {DataTable, LazyLoadEvent, Message, Button, Dialog, Header, Column} from 'primeng/primeng';
+import {ScriptTableEntity} from "./script-table-entity";
+import {ScriptTableService} from "./script-table-service";
+import {ScriptUploadFormComponent} from "./scriptUploadForm/script-upload-form.component";
+
 
 @Component({
-  moduleId: module.id,
-  selector: 'projectTable',
+  moduleId:module.id,
+  selector: 'script-table',
   pipes: [],
-  providers: [ProjectTableService],
-  directives: [DataTable,Column,Button,Header,Dialog],
-  // styleUrls: ['./projectTable.scss'],
-  templateUrl: './projectTable.html'
+  providers: [ScriptTableService],
+  directives: [ScriptUploadFormComponent,DataTable,Column,Button,Header,Dialog],
+  // styleUrls: ['./scriptTable.scss'],
+  templateUrl: './script-table.html'
 })
-export class ProjectTableComponent implements OnInit {
+export class ScriptTableComponent implements OnInit{
   errorMessage: string;
-  records: ProjectEntity[];
-  selectedRecords: ProjectEntity[];
+  records: ScriptTableEntity[];
+  selectedRecords: ScriptTableEntity[];
   display: boolean = false;
   totalRecords: number;
   modal : boolean = false;
-  lazyRecords:ProjectEntity[];
+  lazyRecords:ScriptTableEntity[];
+  msgs: Message[] = [];
 
-  constructor(private tableService: ProjectTableService) {
+  constructor(private tableService: ScriptTableService) {
   }
 
   ngOnInit() {
@@ -30,19 +33,19 @@ export class ProjectTableComponent implements OnInit {
     this.totalRecords = 200;
   }
 
-  onAddRecord() {
+  onAddProject() {
     console.log("add project! popup window");
     this.display = true;
   }
 
-  onDeleteRecord() {
+  onDeleteProject() {
     this.tableService.deleteRecords(this.selectedRecords);
     this.getRecords();
   }
 
   private getRecords() {
     this.tableService.getRecords().subscribe(records => this.records = records,
-        error =>  this.errorMessage = <any>error);
+      error =>  this.errorMessage = <any>error);
     this.tableService.getRecords().subscribe(records => this.lazyRecords = records,
       error =>  this.errorMessage = <any>error);
     // this.records = [new ProjectTable('1','1','1'),new ProjectTable('2','2','2')]
@@ -60,5 +63,10 @@ export class ProjectTableComponent implements OnInit {
     setTimeout(() => {
       this.records = this.lazyRecords.slice(event.first, (event.first + event.rows));
     }, 250);
+  }
+
+  selectRecord(record: ScriptTableEntity) {
+    this.msgs = [];
+    this.msgs.push({severity:'info', summary:'Car Select', detail:'Vin: ' + record.appName});
   }
 }

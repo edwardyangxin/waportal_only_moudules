@@ -4,13 +4,14 @@ import {OnInit, Component} from "@angular/core";
 import {DataTable, LazyLoadEvent, Message, Button, Dialog, Header, Column} from 'primeng/primeng';
 import {AppTableEntity} from "./appTableEntity";
 import {AppTableService} from "./appTableService";
+import {AppUploadFormComponent} from "./appUploadForm/app-upload-form.component";
 
 @Component({
   moduleId:module.id,
-  selector: 'appTable',
+  selector: 'app-table',
   pipes: [],
   providers: [AppTableService],
-  directives: [DataTable,Column,Button,Header,Dialog,Message,LazyLoadEvent],
+  directives: [AppUploadFormComponent,DataTable,Column,Button,Header,Dialog],
   // styleUrls: ['./appTable.scss'],
   templateUrl: './appTable.html'
 })

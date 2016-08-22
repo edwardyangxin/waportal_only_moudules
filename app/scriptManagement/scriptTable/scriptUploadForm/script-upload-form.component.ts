@@ -1,29 +1,29 @@
 import {Component} from "@angular/core";
 
-import {AppTableService} from "../appTableService";
-import {AppTableEntity} from "../appTableEntity";
 import {SelectItem, Dropdown} from "primeng/primeng";
+import {ScriptTableService} from "../script-table-service";
+import {ScriptTableEntity} from "../script-table-entity";
 /**
  * Created by yxin on 8/18/2016.
  */
 @Component({
   moduleId: module.id,
-  selector: 'app-upload-form',
+  selector: 'scrip-upload-form',
   pipes: [],
-  providers: [AppTableService],
+  providers: [ScriptTableService],
   directives: [Dropdown],
-  styleUrls: ['./app-upload-form.component.css'],
-  templateUrl: './app-upload-form.component.html'
+  styleUrls: ['./script-upload-form.component.css'],
+  templateUrl: './script-upload-form.component.html'
 })
-export class AppUploadFormComponent{
+export class ScriptUploadFormComponent{
   cities: SelectItem[];
   selectedCity: string;
 
-  private record: AppTableEntity;
+  private record: ScriptTableEntity;
   private submitted = false;
 
-  constructor(private recordTableService:AppTableService) {
-    this.record = new AppTableEntity("","","","","","");
+  constructor(private recordTableService:ScriptTableService) {
+    this.record = new ScriptTableEntity("","","","","");
     this.cities = [];
     this.cities.push({label:'Select City', value:null});
     this.cities.push({label:'New York', value:{id:1, name: 'New York', code: 'NY'}});
@@ -36,7 +36,7 @@ export class AppUploadFormComponent{
   onSubmit() {
     this.submitted = true;
     this.recordTableService.addNewRecord(this.record);
-    this.record = new AppTableEntity("","","","","","");
+    this.record = new ScriptTableEntity("","","","","");
   }
 
 }

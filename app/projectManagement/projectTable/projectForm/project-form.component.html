@@ -3,7 +3,7 @@
     <label for="projectName">项目</label>
     <input type="text" class="form-control" id="projectName"
            required
-           [(ngModel)]="project.projectName" name="projectName"
+           [(ngModel)]="record.projectName" name="projectName"
            #verifyName="ngModel" >
     <div [hidden]="verifyName.valid || verifyName.pristine"
          class="alert alert-danger">
@@ -15,7 +15,7 @@
     <label for="projectLeader">负责人</label>
     <input type="text"  class="form-control" id="projectLeader"
            required
-           [(ngModel)]="project.projectLeader" name="projectLeader">
+           [(ngModel)]="record.projectLeader" name="projectLeader">
     <div [hidden]="verifyName.valid || verifyName.pristine"
          class="alert alert-danger">
       Name is required

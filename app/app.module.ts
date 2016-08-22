@@ -45,6 +45,20 @@ import {DataTable} from 'primeng/primeng';
 import {Column} from 'primeng/primeng';
 import {ProjectFormComponent} from "./projectManagement/projectTable/projectForm/project-form.component";
 import {ProjectManagementModule} from "./projectManagement/project.module";
+import {AppManagementComponent} from "./appManagement/app-management.component";
+import {AppTableComponent} from "./appManagement/appTable/appTable.component";
+import {AppUploadFormComponent} from "./appManagement/appTable/appUploadForm/app-upload-form.component";
+import {AppTableService} from "./appManagement/appTable/appTableService";
+import {ReportManagementComponent} from "./reportManagement/report-management.component";
+import {ReportTableComponent} from "./reportManagement/reportTable/report-table.component";
+import {ReportTableService} from "./reportManagement/reportTable/report-table-service";
+import {ScriptManagementComponent} from "./scriptManagement/script-management.component";
+import {ScriptTableComponent} from "./scriptManagement/scriptTable/script-table.component";
+import {ScriptUploadFormComponent} from "./scriptManagement/scriptTable/scriptUploadForm/script-upload-form.component";
+import {ScriptTableService} from "./scriptManagement/scriptTable/script-table-service";
+import {TestManagementComponent} from "./testManagement/test-management.component";
+import {TestTableComponent} from "./testManagement/testTable/test-table.component";
+import {TestTableService} from "./testManagement/testTable/test-table-service";
 
 @NgModule({
   imports: [
@@ -85,11 +99,25 @@ import {ProjectManagementModule} from "./projectManagement/project.module";
     ProjectComponent,
     ProjectTableComponent,
     ProjectFormComponent,
+    AppManagementComponent,
+    AppTableComponent,
+    AppUploadFormComponent,
+    ReportManagementComponent,
+    ReportTableComponent,
+    ScriptManagementComponent,
+    ScriptTableComponent,
+    ScriptUploadFormComponent,
+    TestManagementComponent,
+    TestTableComponent,
   ],
   providers: [
     HeroService,
     // HTTP_PROVIDERS,
-    ProjectTableService
+    ProjectTableService,
+    AppTableService,
+    ReportTableService,
+    ScriptTableService,
+    TestTableService,
   ],
   bootstrap: [ AppComponent ]
 })
