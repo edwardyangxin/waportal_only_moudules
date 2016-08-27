@@ -1,8 +1,14 @@
 <form>
   <div class="form-group">
     <label for="appName">上传应用</label>
-    <input type="file" class="form-control" id="appName"
+    <!--<input type="file" class="form-control" id="appName"-->
+           <!--required-->
+           <!--[(ngModel)]="record.appName" name="appName"-->
+           <!--#verifyName="ngModel" accept=".apk">-->
+    <input type="file" class="form-control;display:none;" id="appName"
            required
+           [ng-file-select]="options"
+           (onUpload)="handleUpload($event)"
            [(ngModel)]="record.appName" name="appName"
            #verifyName="ngModel" accept=".apk">
     <div [hidden]="verifyName.valid || verifyName.pristine"
@@ -43,4 +49,16 @@
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
 
-<!--<p-dropdown [options]="cities" [(ngModel)]="selectedCity" id="project"></p-dropdown>-->
+<div *ngIf="uploadFile">
+  Progress: {{ uploadProgress }}%
+</div>
+<div *ngIf="uploadFile">
+  <div class="ui indicating olive progress">
+    <div class="bar" [style.width]="uploadProgress + '%'"></div>
+    <div class="label">Uploading file ({{ uploadProgress }}%)</div>
+  </div>
+</div>
+
+<div>
+  Response: <br/>{{ uploadFile | json }}
+</div>

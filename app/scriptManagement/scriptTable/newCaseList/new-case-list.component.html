@@ -1,0 +1,18 @@
+<div class="ui-g">
+  <div class="ui-g-12 ui-md-6">
+    <p-orderList [value]="selectedRecords" [listStyle]="{'height':'100px'}" [responsive]="true" header="新建案例">
+      <template let-record>
+        <div class="ui-helper-clearfix">{{record.scriptName}}-{{record.appName}}</div>
+      </template>
+    </p-orderList>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-12 ui-md-6">
+      <ul>
+        <li *ngFor="let record of selectedRecords" style="list-style-type:none">{{record.scriptName}}-{{record.appName}}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+

@@ -1,28 +1,28 @@
 import {OnInit, Component} from "@angular/core";
-import {ProjectEntity} from "./projectEntity";
-import {ProjectTableService} from "./projectTableService";
 
 import {DataTable, LazyLoadEvent, Column, Dialog, Header, Button, Footer} from 'primeng/primeng';
+import {DeviceEntity} from "./device-table-entity";
+import {DeviceTableService} from "./device-table-service";
 
 @Component({
   moduleId: module.id,
-  selector: 'projectTable',
+  selector: 'device-table',
   pipes: [],
-  providers: [ProjectTableService],
+  providers: [DeviceTableService],
   directives: [DataTable,Column,Button,Header,Dialog,Footer],
-  // styleUrls: ['./projectTable.scss'],
-  templateUrl: './projectTable.html'
+  // styleUrls: ['./device-table.scss'],
+  templateUrl: './device-table.html'
 })
-export class ProjectTableComponent implements OnInit {
+export class DeviceTableComponent implements OnInit {
   errorMessage: string;
-  records: ProjectEntity[];
-  selectedRecords: ProjectEntity[];
+  records: DeviceEntity[];
+  selectedRecords: DeviceEntity[];
   display: boolean = false;
   totalRecords: number;
   // modal : boolean = false;
-  lazyRecords:ProjectEntity[];
+  lazyRecords:DeviceEntity[];
 
-  constructor(private tableService: ProjectTableService) {
+  constructor(private tableService: DeviceTableService) {
   }
 
   ngOnInit() {
@@ -31,7 +31,7 @@ export class ProjectTableComponent implements OnInit {
   }
 
   onAddRecord() {
-    console.log("add project! popup window");
+    console.log("add device! popup window");
     this.display = true;
   }
 
@@ -45,7 +45,7 @@ export class ProjectTableComponent implements OnInit {
       error =>  this.errorMessage = <any>error);
     this.tableService.getRecords().subscribe(records => this.records = records.slice(0, 20),
       error =>  this.errorMessage = <any>error);
-    // this.records = [new ProjectTable('1','1','1'),new ProjectTable('2','2','2')]
+    // this.records = [new DeviceTable('1','1','1'),new DeviceTable('2','2','2')]
   }
 
   loadRecordLazy(event: LazyLoadEvent) {

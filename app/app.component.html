@@ -20,6 +20,12 @@
       </md-list-item>
       <md-list-item role="listitem">
         <div class="md-no-style md-list-item-inner">
+          <a routerLink="/device-management" routerLinkActive="active">设备列表</a>
+        </div>
+        <div class="md-ripple-container"></div>
+      </md-list-item>
+      <md-list-item role="listitem">
+        <div class="md-no-style md-list-item-inner">
           <a routerLink="/appManagement" routerLinkActive="active">应用列表</a>
         </div>
         <div class="md-ripple-container"></div>
@@ -56,11 +62,6 @@
   </md-toolbar>
 
   <div class="app-content">
-
-    <md-card>
-      <h1>{{title}}</h1>
-    </md-card>
-
     <md-card>
       <router-outlet></router-outlet>
     </md-card>

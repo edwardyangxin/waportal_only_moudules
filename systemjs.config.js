@@ -14,6 +14,7 @@
     'primeng':                    'node_modules/primeng',
     'hammer':                    'node_modules/hammerjs',
     '@angular2-material':         'node_modules/@angular2-material',
+    'ng2-uploader':         'node_modules/ng2-uploader',
   };
 
   // packages tells the System loader how to load when no filename and/or no extension
@@ -22,7 +23,8 @@
     'rxjs':                       { defaultExtension: 'js' },
     'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
     'primeng':                    { defaultExtension: 'js' },
-    'hammer': {defaultExtension: 'js' }
+    'hammer': {defaultExtension: 'js' },
+    'ng2-uploader': { main: 'index.js', defaultExtension: 'js'}
   };
 
   var materialComponents = [
@@ -86,6 +88,14 @@
 
   // No umd for router yet
   packages['@angular/router'] = { main: 'index.js', defaultExtension: 'js' };
+
+  // CodeMirror lib
+  map['codemirror'] = 'node_modules/codemirror';
+  packages['codemirror'] = { main: 'lib/codemirror.js', defaultExtension: 'js' };
+
+  // ng2-codemirror
+  map['ng2-codemirror'] = 'node_modules/ng2-codemirror';
+  packages['ng2-codemirror'] = { main: 'lib/Codemirror.js', defaultExtension: 'js' };
 
   var config = {
     map: map,

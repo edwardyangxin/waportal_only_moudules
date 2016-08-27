@@ -4,6 +4,8 @@ import {DataTable, LazyLoadEvent, Message, Button, Dialog, Header, Column} from 
 import {ScriptTableEntity} from "./script-table-entity";
 import {ScriptTableService} from "./script-table-service";
 import {ScriptUploadFormComponent} from "./scriptUploadForm/script-upload-form.component";
+import {ScriptEditorComponent} from "./scriptEditor/script-editor.component";
+import {NewCaseListComponent} from "./newCaseList/new-case-list.component";
 
 
 @Component({
@@ -11,7 +13,7 @@ import {ScriptUploadFormComponent} from "./scriptUploadForm/script-upload-form.c
   selector: 'script-table',
   pipes: [],
   providers: [ScriptTableService],
-  directives: [ScriptUploadFormComponent,DataTable,Column,Button,Header,Dialog],
+  directives: [ScriptUploadFormComponent, ScriptEditorComponent, NewCaseListComponent,DataTable,Column,Button,Header,Dialog],
   // styleUrls: ['./scriptTable.scss'],
   templateUrl: './script-table.html'
 })

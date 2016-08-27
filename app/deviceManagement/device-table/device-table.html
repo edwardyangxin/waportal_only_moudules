@@ -1,0 +1,14 @@
+<p-dataTable [value]="records" selectionMode="multiple" [(selection)]="selectedRecords" [rows]="20" [paginator]="true"
+             [lazy]="true" [totalRecords]="totalRecords" (onLazyLoad)="loadRecordLazy($event)">
+    <p-column field="deviceBrand" header="品牌"></p-column>
+    <p-column field="deviceBrand" header="型号"></p-column>
+    <p-column field="deviceBrand" header="版本"></p-column>
+    <p-column field="deviceBrand" header="设备号"></p-column>
+    <p-column field="deviceBrand" header="状态"></p-column>
+    <p-column field="deviceBrand" header="已安装的应用"></p-column>
+    <footer>
+      <ul>
+        <li *ngFor="let record of selectedRecords" style="text-align: left">{{record.projectName + ' - ' + record.projectLeader}}</li>
+      </ul>
+    </footer>
+</p-dataTable>
