@@ -6,12 +6,12 @@
         <button pButton type="button" (click)="onDeleteRecord()" label="删除项目" style="float:left"></button>
       </div>
     </header>
-    <p-column field="projectName" header="项目"></p-column>
-    <p-column field="projectLeader" header="负责人"></p-column>
-    <p-column field="ts" header="创建时间"></p-column>
+    <p-column field="name" header="项目"></p-column>
+    <p-column field="userName" header="负责人"></p-column>
+    <p-column field="createDate" header="创建时间"></p-column>
     <footer>
       <ul>
-        <li *ngFor="let record of selectedRecords" style="text-align: left">{{record.projectName + ' - ' + record.projectLeader}}</li>
+        <li *ngFor="let record of selectedRecords" style="text-align: left">{{record.name + ' - ' + record.userName}}</li>
       </ul>
     </footer>
 </p-dataTable>
@@ -30,7 +30,7 @@
   <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="record">
     <div class="ui-grid-row">
       <div class="ui-grid-col-4"><label for="vin">Vin</label></div>
-      <div class="ui-grid-col-8"><input pInputText id="vin" [(ngModel)]="record.projectName" /></div>
+      <div class="ui-grid-col-8"><input pInputText id="vin" [(ngModel)]="record.name" /></div>
     </div>
   </div>
   <footer>
@@ -41,4 +41,4 @@
   </footer>
 </p-dialog>
 
-<project-new-form></project-new-form>
+<!--<project-new-form></project-new-form>-->

@@ -49,6 +49,7 @@ import {DeviceManagementComponent} from "./deviceManagement/device-management.co
 import {DeviceTableComponent} from "./deviceManagement/device-table/device-table.component";
 import {DeviceTableService} from "./deviceManagement/device-table/device-table-service";
 import {UPLOAD_DIRECTIVES} from "ng2-uploader/index";
+import {SideMenuComponent} from "./sideMenu/side-menu.component";
 
 @NgModule({
   imports: [
@@ -101,6 +102,7 @@ import {UPLOAD_DIRECTIVES} from "ng2-uploader/index";
     DeviceManagementComponent,
     DeviceTableComponent,
     UPLOAD_DIRECTIVES,
+    SideMenuComponent,
   ],
   providers: [
     ProjectTableService,

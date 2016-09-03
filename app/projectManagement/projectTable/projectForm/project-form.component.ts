@@ -19,13 +19,16 @@ export class ProjectFormComponent{
   private submitted = false;
 
   constructor(private recordTableService:ProjectTableService) {
-    this.record = new ProjectEntity("","","");
+    this.cleanRecord();
   }
 
-  onSubmit() {
-    this.submitted = true;
+  addNewRecord() {
     this.recordTableService.addNewRecord(this.record);
-    this.record = new ProjectEntity("","","");
+    this.cleanRecord();
+  }
+
+  cleanRecord() {
+    this.record = new ProjectEntity(1,"","",1,"");
   }
 
 }

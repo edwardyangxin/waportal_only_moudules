@@ -2,25 +2,35 @@
  * Created by yxin on 8/17/2016.
  */
 import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {ProjectEntity} from './projectEntity';
 import { Observable }     from 'rxjs/Observable';
+import {AppSettings} from "../../commonFactory/app-settings";
+import {ProjectTable} from "./projectTable";
 
 @Injectable()
 export class ProjectTableService {
 
   constructor(private http: Http) {}
+  // private baseUrl = "http://127.0.0";
+  private recordUrl = AppSettings.API_ENDPOINT+"/project/table";
+  private addRecordUrl = AppSettings.API_ENDPOINT+"/project/save";
+  private deleteRecordUrl = AppSettings.API_ENDPOINT+"/project/delete";
 
-  private recordUrl = "";
-  private addRecordUrl = "";
-
-  getRecords() : Observable<ProjectEntity[]>{
+  getRecords(first:number,rows:number) : Observable<ProjectTable>{
+    console.log(this.recordUrl);
+    let body = JSON.stringify({ first,rows });
+    console.log(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    // return this.http.post(this.recordUrl, body, options).map(this.extractData).catch(this.handleError);
     return this.http.get('mockData/projects.json').map(this.extractData).catch(this.handleError);
+
   }
 
   private extractData(res: Response) {
     let body = res.json();
-    return body.data || { };
+    return body || { };
   }
 
   private handleError (error: any) {
@@ -33,11 +43,28 @@ export class ProjectTableService {
   }
 
   addNewRecord(record:ProjectEntity) {
-    console.log("add project!")
+    console.log(this.addRecordUrl);
+    let name = record.name;
+    let body = JSON.stringify({ name });
+    console.log(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    // return this.http.post(this.addRecordUrl, body, options).map(this.extractData).catch(this.handleError);
+    return;
   }
 
   deleteRecords(selectedRecords:ProjectEntity[]) {
-    console.log("delete project!")
+    console.log(this.deleteRecordUrl);
+    let ids = new Array<number>();
+    selectedRecords.forEach(record => {
+      ids.push(record.id);
+    })
+    let body = JSON.stringify({ ids });
+    console.log(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    // return this.http.post(this.deleteRecordUrl, body, options).map(this.extractData).catch(this.handleError);
+    return;
   }
 }
 

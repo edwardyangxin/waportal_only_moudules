@@ -3,10 +3,12 @@
  */
 export class AppTableEntity {
   constructor(
-      public appName: string,
-      public appVersion: string,
-      public os: string,
+      public id: number,
+      public name: string,
+      public version: string,
+      public type: string,
       public project: string,
-      public uploadBy: string,
-      public ts: string) { }
+      public createDate: string,
+      public userName: string
+  ) { }
 }
