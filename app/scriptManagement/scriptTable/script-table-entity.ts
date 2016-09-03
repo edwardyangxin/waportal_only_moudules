@@ -3,10 +3,12 @@
  */
 export class ScriptTableEntity {
   constructor(
-      public scriptName: string,
+      public id: number,
+      public name: string,
+      public path: string,
       public appName: string,
       public appVersion: string,
-      public uploadTime: string,
-      public uploadBy: string
+      public createDate: string,
+      public userName: string
   ) { }
 }

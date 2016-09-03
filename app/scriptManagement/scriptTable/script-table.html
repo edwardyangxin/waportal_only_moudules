@@ -7,11 +7,11 @@
         <button pButton type="button" (click)="onDeleteRecord()" label="删除脚本" style="float:left"></button>
       </div>
     </header>
-    <p-column field="scriptName" header="测试脚本" [filter]="true"></p-column>
+    <p-column field="name" header="测试脚本" [filter]="true"></p-column>
     <p-column field="appName" header="应用" [filter]="true"></p-column>
     <p-column field="appVersion" header="应用版本" [filter]="true"></p-column>
-    <p-column field="uploadTime" header="上传时间" [filter]="true"></p-column>
-    <p-column field="uploadBy" header="上传者" [filter]="true"></p-column>
+    <p-column field="createDate" header="上传时间" [filter]="true"></p-column>
+    <p-column field="userName" header="上传者" [filter]="true"></p-column>
     <p-column header="操作" styleClass="col-button">
       <template let-car="rowData">
         <button type="button" pButton (click)="selectRecord(record)" icon="fa-search"></button>
@@ -19,12 +19,13 @@
     </p-column>
 </p-dataTable>
 
-<p-dialog header="上传应用" [(visible)]="display" [modal]="modal">
-
+<p-dialog header="上传测试脚本" [(visible)]="display" [modal]="modal">
+  <script-upload-form></script-upload-form>
 </p-dialog>
-
-<script-upload-form></script-upload-form>
 
 <script-editor></script-editor>
 
+<p-dialog header="生成案例" [(visible)]="display" [modal]="modal">
+  <new-case-list [selectedRecords]="selectedRecords"></new-case-list>
+</p-dialog>
 <new-case-list [selectedRecords]="selectedRecords"></new-case-list>

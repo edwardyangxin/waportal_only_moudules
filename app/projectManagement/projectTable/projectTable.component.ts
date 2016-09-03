@@ -37,6 +37,7 @@ export class ProjectTableComponent implements OnInit {
   onDeleteRecord() {
     this.tableService.deleteRecords(this.selectedRecords);
     this.getRecords(0,20);
+    this.selectedRecords = [];
   }
 
   private getRecords(first:number,rows:number) {

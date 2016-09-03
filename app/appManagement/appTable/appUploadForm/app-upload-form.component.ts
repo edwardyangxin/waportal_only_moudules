@@ -28,7 +28,7 @@ export class AppUploadFormComponent{
   uploadResponse: Object;
   zone: NgZone;
   options: Object = {
-    url: AppSettings.API_ENDPOINT+"/app/upload"
+    url: AppSettings.API_ENDPOINT+"/app/upload-app"
   };
 
   private record: AppTableEntity;

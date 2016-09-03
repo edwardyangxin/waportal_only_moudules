@@ -1,46 +1,32 @@
 <form>
-  <!--<div class="form-group">-->
-    <!--<label for="appName">上传应用</label>-->
-    <!--<input type="file" class="form-control" id="appName"-->
-           <!--required-->
-           <!--[(ngModel)]="record.appName" name="appName"-->
-           <!--#verifyName="ngModel" accept=".apk">-->
-    <!--<div [hidden]="verifyName.valid || verifyName.pristine"-->
-         <!--class="alert alert-danger">-->
-      <!--请上传应用-->
-    <!--</div>-->
-    <!--{{"appname: "+ record.appName}}-->
-  <!--</div>-->
+  <div class="form-group">
+    <label for="name">上传测试脚本</label>
+    <input type="file" class="form-control;display:none;" id="name"
+           required
+           [ng-file-select]="options"
+           (onUpload)="handleUpload($event)"
+           [(ngModel)]="record.name" name="name"
+           #verifyName="ngModel" accept=".py">
+  </div>
 
-  <!--<div class="form-group">-->
-    <!--<label for="appVersion">App版本</label>-->
-    <!--<input type="text" class="form-control" id="appVersion"-->
-           <!--required-->
-           <!--[(ngModel)]="record.appVersion" name="appVersion"-->
-           <!--#verifyName="ngModel" >-->
-    <!--<div [hidden]="verifyName.valid || verifyName.pristine"-->
-         <!--class="alert alert-danger">-->
-      <!--请填写版本-->
-    <!--</div>-->
-  <!--</div>-->
+  <div class="form-group">
+    <label for="app-upload-owned-by">选择APP：</label>
+    <p-dropdown [options]="selectItems" [(ngModel)]="selectedItem" id= "app-upload-owned-by" name="apps"></p-dropdown>
+  </div>
 
-  <!--<div class="form-group">-->
-    <!--<label for="os">负责人</label>-->
-    <!--<input type="text"  class="form-control" id="os"-->
-           <!--required-->
-           <!--[(ngModel)]="record.os" name="os">-->
-    <!--<div [hidden]="verifyName.valid || verifyName.pristine"-->
-         <!--class="alert alert-danger">-->
-      <!--Name is required-->
-    <!--</div>-->
-  <!--</div>-->
-
-  <!--<div class="form-group">-->
-    <!--<label for="app-upload-owned-by">选择项目：</label>-->
-    <!--<p-dropdown [options]="cities" [(ngModel)]="selectedCity" id= "app-upload-owned-by" name="ownedBy"></p-dropdown>-->
-  <!--</div>-->
-
-  <button type="submit" class="btn btn-default">Submit</button>
+  <button type="button" class="btn btn-default" (click)="addNewRecord()">创建</button>
 </form>
 
-<!--<p-dropdown [options]="cities" [(ngModel)]="selectedCity" id="project"></p-dropdown>-->
+<div *ngIf="uploadFile">
+  Progress: {{ uploadProgress }}%
+</div>
+<div *ngIf="uploadFile">
+  <div class="ui indicating olive progress">
+    <div class="bar" [style.width]="uploadProgress + '%'"></div>
+    <div class="label">Uploading file ({{ uploadProgress }}%)</div>
+  </div>
+</div>
+
+<div>
+  Response: <br/>{{ uploadFile | json }}
+</div>
