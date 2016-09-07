@@ -5,6 +5,7 @@ import {TestTableEntity} from "./test-table-entity";
 import {TestTableService} from "./test-table-service";
 import {DeviceTableEntity} from "../../deviceManagement/device-table/device-table-entity";
 import {DeviceTableService} from "../../deviceManagement/device-table/device-table-service";
+import {Subscription} from "rxjs/Rx";
 
 @Component({
   moduleId:module.id,
@@ -19,8 +20,12 @@ export class TestTableComponent implements OnInit{
   errorMessage: string;
   records: TestTableEntity[];
   selectedRecords: TestTableEntity[];
-  displayDeployTask: boolean = false;
   totalRecords: number;
+  subscription: Subscription;
+  //page info
+  rows: number = 50;
+  //device popup
+  displayDeployTask: boolean = false;
   deviceTable: DeviceTableEntity[];
   selectedDevices: DeviceTableEntity[];
   totalDevices: number;
@@ -30,12 +35,16 @@ export class TestTableComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.getRecords(0,20);
+    this.getRecords(0,this.rows,null,"","");
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onDeleteRecord() {
-    this.tableService.deleteRecords(this.selectedRecords);
-    this.getRecords(0,20);
+    this.tableService.deleteRecords(this.selectedRecords).subscribe(resp => console.log(resp),error =>  console.log(error));
+    this.getRecords(0,this.rows,null,"","");
     this.selectedRecords = [];
   }
 
@@ -56,8 +65,8 @@ export class TestTableComponent implements OnInit{
     this.displayDeployTask = false;
   }
 
-  private getRecords(first:number,rows:number) {
-    this.tableService.getRecords(first,rows).subscribe(recordTable => {this.records = recordTable.records; this.totalRecords = recordTable.totalRecords},
+  getRecords(first:number,rows:number, filters: Map<string,Array<string>>, sortField:string, sortOrder:string) {
+    this.subscription = this.tableService.getRecords(first,rows, filters, sortField, sortOrder).subscribe(recordTable => {this.records = recordTable.records; this.totalRecords = recordTable.totalRecords},
       error =>  this.errorMessage = <any>error);
   }
 
@@ -71,6 +80,6 @@ export class TestTableComponent implements OnInit{
     //event.sortOrder = Sort order as number, 1 for asc and -1 for dec
     //filters: FilterMetadata object having field as key and filter value, filter matchMode as value
 
-    this.getRecords(first,rows);
+    this.getRecords(first,rows,null,"","");
   }
 }

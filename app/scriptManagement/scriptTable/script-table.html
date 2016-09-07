@@ -41,17 +41,17 @@
       <div class="ui-g-12 ui-md-6">
         <p-orderList [value]="selectedRecords" [listStyle]="{'height':'100px'}" [responsive]="true" header="新建案例">
           <template let-record>
-            <div class="ui-helper-clearfix">{{record.name}}-{{record.appName}}</div>
+            <div class="ui-helper-clearfix">{{record.name}}-{{record.appName}}-{{record.userName}}</div>
           </template>
         </p-orderList>
       </div>
-      <div class="ui-g">
-        <div class="ui-g-12 ui-md-6">
-          <ul>
-            <li *ngFor="let record of selectedRecords" style="list-style-type:none">{{record.name}}-{{record.id}}</li>
-          </ul>
-        </div>
-      </div>
+      <!--<div class="ui-g">-->
+        <!--<div class="ui-g-12 ui-md-6">-->
+          <!--<ul>-->
+            <!--<li *ngFor="let record of selectedRecords" style="list-style-type:none">{{record.name}}-{{record.id}}</li>-->
+          <!--</ul>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
 
     <button type="button" class="btn btn-default" (click)="addNewCase()">提交</button>

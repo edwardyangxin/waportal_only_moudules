@@ -19,15 +19,14 @@ export class TestTableService {
   private deleteRecordUrl = AppSettings.API_ENDPOINT+"/case/delete";
   private deployCaseUrl = AppSettings.API_ENDPOINT+"/case/deploy";
 
-  getRecords(first:number,rows:number) : Observable<TestTable>{
+  getRecords(first:number,rows:number,filters: Map<string,Array<string>>, sortField:string, sortOrder:string) : Observable<TestTable>{
     console.log(this.recordUrl);
-    let body = JSON.stringify({ first,rows });
+    let body = JSON.stringify({ first,rows, filters, sortField, sortOrder });
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(this.recordUrl, body, options).map(this.extractData).catch(this.handleError);
-    return this.http.get('mockData/tests.json').map(this.extractData).catch(this.handleError);
-
+    return this.http.post(this.recordUrl, body, options).map(this.extractData).catch(this.handleError);
+    // return this.http.get('mockData/tests.json').map(this.extractData).catch(this.handleError);
   }
 
   private extractData(res: Response) {
@@ -52,8 +51,8 @@ export class TestTableService {
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(this.deleteRecordUrl, body, options).map(this.extractData).catch(this.handleError);
-    return;
+    return this.http.post(this.deleteRecordUrl, body, options).map(this.extractData).catch(this.handleError);
+    // return;
   }
 
   deployCase(id:string, selectedRecords:DeviceTableEntity[]) {
