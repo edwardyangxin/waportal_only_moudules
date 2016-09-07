@@ -20,7 +20,7 @@
 </p-dataTable>
 
 <p-dialog header="上传测试脚本" [(visible)]="displayNew" [modal]="modal">
-  <script-upload-form></script-upload-form>
+  <script-upload-form (onSubmit)="onSubmit($event)"></script-upload-form>
 </p-dialog>
 
 <p-dialog header="生成案例" [(visible)]="displayCase" [modal]="modal">
@@ -48,13 +48,13 @@
       <div class="ui-g">
         <div class="ui-g-12 ui-md-6">
           <ul>
-            <li *ngFor="let record of selectedRecords" style="list-style-type:none">{{record.scriptName}}-{{record.id}}</li>
+            <li *ngFor="let record of selectedRecords" style="list-style-type:none">{{record.name}}-{{record.id}}</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <button type="button" class="btn btn-default" (click)="addNewRecord()">编辑</button>
+    <button type="button" class="btn btn-default" (click)="addNewCase()">提交</button>
   </form>
 </p-dialog>
 
@@ -63,7 +63,7 @@
     <button type="text" (click)="uploadScript()" pButton icon="fa-external-link-square" label="保存"></button>
   </header>
   <codemirror [(ngModel)]="code" [config]="config"></codemirror>
-  <div [innerHTML]="code"></div>
+  <!--<div [innerHTML]="code"></div>-->
 </p-dialog>
 
 <!--<codemirror [(ngModel)]="code" [config]="config"></codemirror>-->

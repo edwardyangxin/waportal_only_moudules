@@ -19,18 +19,17 @@ export class ScriptTableService {
   private addRecordUrl = AppSettings.API_ENDPOINT+"/script/save";
   private deleteRecordUrl = AppSettings.API_ENDPOINT+"/script/delete";
   private appListUrl = AppSettings.API_ENDPOINT+"/app/list";
-  private caseAdd = AppSettings.API_ENDPOINT+"/case/add";
+  private caseAdd = AppSettings.API_ENDPOINT+"/case/save";
   private getScript = AppSettings.API_ENDPOINT+"/script";
 
-  getRecords(first:number,rows:number) : Observable<ScriptTable>{
+  getRecords(first:number,rows:number, filters: Map<string,Array<string>>, sortField:string, sortOrder:string) : Observable<ScriptTable>{
     console.log(this.recordUrl);
-    let body = JSON.stringify({ first,rows });
+    let body = JSON.stringify({ first,rows, filters, sortField, sortOrder });
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(this.recordUrl, body, options).map(this.extractData).catch(this.handleError);
-    return this.http.get('mockData/scripts.json').map(this.extractData).catch(this.handleError);
-
+    return this.http.post(this.recordUrl, body, options).map(this.extractData).catch(this.handleError);
+    // return this.http.get('mockData/scripts.json').map(this.extractData).catch(this.handleError);
   }
 
   private extractData(res: Response) {
@@ -39,6 +38,7 @@ export class ScriptTableService {
   }
 
   private extractText(res: Response) {
+    console.log(res);
     return res.text();
   }
 
@@ -54,12 +54,12 @@ export class ScriptTableService {
   addNewRecord(record:ScriptTableEntity,app:AppTableEntity) {
     console.log(this.addRecordUrl);
     let id = record.id;
-    let body = JSON.stringify({ id, app });
+    let appId = app.id;
+    let body = JSON.stringify({ id, appId });
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(this.addRecordUrl, body, options).map(this.extractData).catch(this.handleError);
-    return;
+    return this.http.post(this.addRecordUrl, body, options).map(this.extractData).catch(this.handleError);
   }
 
   deleteRecords(selectedRecords:ScriptTableEntity[]) {
@@ -72,13 +72,13 @@ export class ScriptTableService {
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(this.deleteRecordUrl, body, options).map(this.extractData).catch(this.handleError);
-    return;
+    return this.http.post(this.deleteRecordUrl, body, options).map(this.extractData).catch(this.handleError);
+    // return;
   }
 
   getAppList() : Observable<AppList> {
     console.log(this.appListUrl);
-    return this.http.get('mockData/appList.json').map(this.extractData).catch(this.handleError);
+    return this.http.get(this.appListUrl).map(this.extractData).catch(this.handleError);
   }
 
   addNewCase(caseName:string, selectedRecords:ScriptTableEntity[]) {
@@ -92,27 +92,26 @@ export class ScriptTableService {
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(this.caseAdd, body, options).map(this.extractData).catch(this.handleError);
-    return;
+    return this.http.post(this.caseAdd, body, options).map(this.extractData).catch(this.handleError);
+    // return;
   }
 
-  getScriptCode(record:ScriptTableEntity): Observable<string> {
+  getScriptCode(record:ScriptTableEntity){
     let id = record.id;
     let url = this.getScript+"/"+id;
     console.log(url);
-    // return this.http.get(url).map(this.extractText).catch(this.handleError);
-    return this.http.get('mockData/script.py').map(this.extractText).catch(this.handleError);
+    return this.http.get(url).map(this.extractText).catch(this.handleError);
+    // return this.http.get('mockData/script.py').map(this.extractText).catch(this.handleError);
   }
 
   uploadScript(id:string, code:string) {
-    let url = this.getScript+"/"+id+"/upload";
-    let script = code;
-    let body = JSON.stringify({ id, script });
+    let url = this.getScript+"/"+id;
+    let content = code;
+    let body = JSON.stringify({ content });
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(url, body, options).map(this.extractData).catch(this.handleError);
-    return;
+    return this.http.post(url, body, options).map(this.extractData).catch(this.handleError);
   }
 }
 

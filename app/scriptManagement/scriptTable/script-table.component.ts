@@ -8,6 +8,7 @@ import {NewCaseListComponent} from "./newCaseList/new-case-list.component";
 import {Codemirror} from 'ng2-codemirror';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/python/python';
+import {Subscription} from "rxjs/Rx";
 
 
 @Component({
@@ -28,13 +29,18 @@ export class ScriptTableComponent implements OnInit{
   displayScript: boolean = false;
   caseName: string;
   totalRecords: number;
+  subscription: Subscription;
+
+  //page info
+  rows: number = 50;
+
   code:string = "";
   id: string = "";
   // Configuration object
   config = {
     lineNumbers: true,
     mode: {
-      name: 'javascript',
+      name: 'python',
       json: true
     }
   };
@@ -43,7 +49,11 @@ export class ScriptTableComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.getRecords(0,20);
+    this.getRecords(0,this.rows,null,"","");
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onAddRecord() {
@@ -54,6 +64,11 @@ export class ScriptTableComponent implements OnInit{
   onAddCase() {
     console.log("add! popup window");
     this.displayCase = true;
+  }
+
+  onSubmit(){
+    console.log("reload table!");
+    this.getRecords(0,this.rows, null,"","");
   }
 
   selectRecord(record:ScriptTableEntity) {
@@ -67,25 +82,25 @@ export class ScriptTableComponent implements OnInit{
 
   uploadScript() {
     console.log("upload " + this.id);
-    this.tableService.uploadScript(this.id, this.code);
+    this.tableService.uploadScript(this.id, this.code).subscribe(resp => console.log(resp),error =>  console.log(error));
   }
 
   onDeleteRecord() {
-    this.tableService.deleteRecords(this.selectedRecords);
-    this.getRecords(0,20);
+    this.tableService.deleteRecords(this.selectedRecords).subscribe(resp => console.log(resp),error =>  console.log(error));
+    this.getRecords(0,this.rows,null,"","");
     this.selectedRecords = [];
   }
 
-  addNewRecord() {
-    this.tableService.addNewCase(this.caseName,this.selectedRecords);
+  addNewCase() {
+    this.tableService.addNewCase(this.caseName,this.selectedRecords).subscribe(resp => console.log(resp),error =>  console.log(error));
     // to be added : close popup window & clear selected scripts
     this.displayCase = false;
     this.selectedRecords = [];
     this.caseName = "";
   }
 
-  private getRecords(first:number,rows:number) {
-    this.tableService.getRecords(first,rows).subscribe(recordTable => {this.records = recordTable.records; this.totalRecords = recordTable.totalRecords},
+  getRecords(first:number,rows:number, filters: Map<string,Array<string>>, sortField:string, sortOrder:string) {
+    this.subscription = this.tableService.getRecords(first,rows, filters, sortField, sortOrder).subscribe(recordTable => {this.records = recordTable.records; this.totalRecords = recordTable.totalRecords},
       error =>  this.errorMessage = <any>error);
   }
 
@@ -99,6 +114,6 @@ export class ScriptTableComponent implements OnInit{
     //event.sortOrder = Sort order as number, 1 for asc and -1 for dec
     //filters: FilterMetadata object having field as key and filter value, filter matchMode as value
 
-    this.getRecords(first,rows);
+    this.getRecords(first,rows,null,"","");
   }
 }

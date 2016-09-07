@@ -1,4 +1,4 @@
-import {Component, NgZone} from "@angular/core";
+import {Component, NgZone, EventEmitter, Output} from "@angular/core";
 
 import {SelectItem, Dropdown} from "primeng/primeng";
 import {ScriptTableService} from "../script-table-service";
@@ -20,6 +20,7 @@ import {AppTableEntity} from "../../../appManagement/appTable/appTableEntity";
 export class ScriptUploadFormComponent{
   selectItems: SelectItem[];
   selectedItem: AppTableEntity;
+  @Output() onSubmit = new EventEmitter<boolean>();
 
   uploadFile: any;
   uploadProgress: number;
@@ -58,16 +59,18 @@ export class ScriptUploadFormComponent{
       resp = JSON.parse(resp);
       this.uploadResponse = resp;
       console.log(this.uploadResponse);
-      this.record.id = resp.get("id");
+      this.record.id = resp.id;
     }
   }
 
   addNewRecord() {
-    this.recordTableService.addNewRecord(this.record,this.selectedItem);
+    this.recordTableService.addNewRecord(this.record,this.selectedItem).subscribe(resp => console.log(resp),error =>  console.log(error));
     this.cleanRecord();
+    this.onSubmit.emit(true);
   }
 
   cleanRecord() {
+    this.uploadFile = null;
     this.record = new ScriptTableEntity("","","","","","","");
   }
 
