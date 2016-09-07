@@ -3,9 +3,9 @@
  */
 export class ProjectEntity {
   constructor(
-      public id: number,
+      public id: string,
       public name: string,
       public userName: string,
-      public userId: number,
+      public userId: string,
       public createDate: string) { }
 }

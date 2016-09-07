@@ -37,11 +37,10 @@ export class ScriptUploadFormComponent{
     this.recordTableService.getAppList().subscribe(recordList => {
         recordList.records.forEach(record => this.selectItems.push({label:record.name, value:record}));
         this.selectedItem = recordList.records[0];
-      },
-      error =>  console.log(error));
+      }, error =>  console.log(error));
 
     // init form
-    this.record = new ScriptTableEntity(null,"","","","","","");
+    this.cleanRecord();
 
     //init upload data
     this.uploadProgress = 0;
@@ -65,7 +64,11 @@ export class ScriptUploadFormComponent{
 
   addNewRecord() {
     this.recordTableService.addNewRecord(this.record,this.selectedItem);
-    this.record = new ScriptTableEntity(0,"","","","","","");
+    this.cleanRecord();
+  }
+
+  cleanRecord() {
+    this.record = new ScriptTableEntity("","","","","","","");
   }
 
 }

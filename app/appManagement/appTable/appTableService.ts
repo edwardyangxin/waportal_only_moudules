@@ -20,15 +20,14 @@ export class AppTableService {
   private deleteRecordUrl = AppSettings.API_ENDPOINT+"/app/delete";
   private projectListUrl = AppSettings.API_ENDPOINT+"/project/list";
 
-  getRecords(first:number,rows:number) : Observable<AppTable>{
+  getRecords(first:number,rows:number,filters: Map<string,Array<string>>, sortField:string, sortOrder:string) : Observable<AppTable>{
     console.log(this.recordUrl);
-    let body = JSON.stringify({ first,rows });
+    let body = JSON.stringify({ first,rows, filters, sortField, sortOrder });
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(this.recordUrl, body, options).map(this.extractData).catch(this.handleError);
-    return this.http.get('mockData/apps.json').map(this.extractData).catch(this.handleError);
-
+    return this.http.post(this.recordUrl, body, options).map(this.extractData).catch(this.handleError);
+    // return this.http.get('mockData/apps.json').map(this.extractData).catch(this.handleError);
   }
 
   private extractData(res: Response) {
@@ -49,31 +48,28 @@ export class AppTableService {
     console.log(this.addRecordUrl);
     let id = record.id;
     let version = record.version;
-    let body = JSON.stringify({ id,version,project});
+    let projectId = project.id;
+    let body = JSON.stringify({ id,version,projectId});
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(this.addRecordUrl, body, options).map(this.extractData).catch(this.handleError);
-    return;
+    return this.http.post(this.addRecordUrl, body, options).map(this.extractData).catch(this.handleError);
   }
 
   deleteRecords(selectedRecords:AppTableEntity[]) {
     console.log(this.deleteRecordUrl);
-    let ids = new Array<number>();
-    selectedRecords.forEach(record => {
-      ids.push(record.id);
-    })
+    let ids = new Array<string>();
+    selectedRecords.forEach(record => {ids.push(record.id);});
     let body = JSON.stringify({ ids });
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(this.deleteRecordUrl, body, options).map(this.extractData).catch(this.handleError);
-    return;
+    return this.http.post(this.deleteRecordUrl, body, options).map(this.extractData).catch(this.handleError);
   }
 
   getProjectList() : Observable<ProjectList> {
     console.log(this.projectListUrl);
-    return this.http.get('mockData/projectList.json').map(this.extractData).catch(this.handleError);
+    return this.http.get(this.projectListUrl).map(this.extractData).catch(this.handleError);
   }
 }
 

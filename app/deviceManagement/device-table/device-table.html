@@ -1,14 +1,15 @@
-<p-dataTable [value]="records" selectionMode="multiple" [(selection)]="selectedRecords" [rows]="20" [paginator]="true"
+<p-dataTable [value]="records" selectionMode="multiple" [(selection)]="selectedRecords" [rows]="50" [paginator]="true"
              [lazy]="true" [totalRecords]="totalRecords" (onLazyLoad)="loadRecordLazy($event)">
-    <p-column field="deviceBrand" header="品牌"></p-column>
-    <p-column field="deviceBrand" header="型号"></p-column>
-    <p-column field="deviceBrand" header="版本"></p-column>
-    <p-column field="deviceBrand" header="设备号"></p-column>
-    <p-column field="deviceBrand" header="状态"></p-column>
-    <p-column field="deviceBrand" header="已安装的应用"></p-column>
-    <footer>
-      <ul>
-        <li *ngFor="let record of selectedRecords" style="text-align: left">{{record.projectName + ' - ' + record.projectLeader}}</li>
-      </ul>
-    </footer>
+  <p-column field="brand" header="品牌"></p-column>
+  <p-column field="model" header="型号"></p-column>
+  <p-column field="type" header="类型"></p-column>
+  <p-column field="version" header="版本"></p-column>
+  <p-column field="cpuabi" header="设备号"></p-column>
+  <p-column field="status" header="状态"></p-column>
+  <p-column field="host" header="主机"></p-column>
+  <footer>
+    <ul>
+      <li *ngFor="let record of selectedRecords" style="text-align: left">{{record.brand + ' - ' + record.id}}</li>
+    </ul>
+  </footer>
 </p-dataTable>

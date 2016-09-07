@@ -1,9 +1,11 @@
 /**
  * Created by yxin on 8/17/2016.
  */
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import { Observable }     from 'rxjs/Observable';
+import {Injectable} from "@angular/core";
+import {Http, Response, Headers, RequestOptions} from "@angular/http";
+import {Observable} from "rxjs/Observable";
+import {AppSettings} from "../../commonFactory/app-settings";
+import {ReportTable} from "./report-table";
 import {ReportTableEntity} from "./report-table-entity";
 
 @Injectable()
@@ -11,16 +13,24 @@ export class ReportTableService {
 
   constructor(private http: Http) {}
 
-  private recordUrl = "";
-  private addRecordUrl = "";
+  private recordUrl = AppSettings.API_ENDPOINT+"/report/table";
+  private addRecordUrl = AppSettings.API_ENDPOINT+"/report/save";
+  private deleteRecordUrl = AppSettings.API_ENDPOINT+"/report/delete";
 
-  getRecords() : Observable<ReportTableEntity[]>{
-    return this.http.get('mockData/apps.json').map(this.extractData).catch(this.handleError);
+  getRecords(first:number,rows:number) : Observable<ReportTable>{
+    console.log(this.recordUrl);
+    let body = JSON.stringify({ first,rows });
+    console.log(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    // return this.http.post(this.recordUrl, body, options).map(this.extractData).catch(this.handleError);
+    return this.http.get('mockData/reports.json').map(this.extractData).catch(this.handleError);
+
   }
 
   private extractData(res: Response) {
     let body = res.json();
-    return body.data || { };
+    return body || { };
   }
 
   private handleError (error: any) {
@@ -32,12 +42,16 @@ export class ReportTableService {
     return Observable.throw(errMsg);
   }
 
-  addNewRecord(record:ReportTableEntity) {
-    console.log("add project!")
-  }
-
   deleteRecords(selectedRecords:ReportTableEntity[]) {
-    console.log("delete project!")
+    console.log(this.deleteRecordUrl);
+    let ids = new Array<string>();
+    selectedRecords.forEach(record => {ids.push(record.id);});
+    let body = JSON.stringify({ ids });
+    console.log(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    // return this.http.post(this.deleteRecordUrl, body, options).map(this.extractData).catch(this.handleError);
+    return;
   }
 }
 

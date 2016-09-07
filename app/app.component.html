@@ -32,7 +32,8 @@
       </md-list-item>
       <md-list-item role="listitem">
         <div class="md-no-style md-list-item-inner">
-          <a routerLink="/reportManagement" routerLinkActive="active" target="_blank">报告列表</a>
+          <!--<a routerLink="/reportManagement" routerLinkActive="active" target="_blank">报告列表</a>-->
+          <a routerLink="/reportManagement" routerLinkActive="active">报告列表</a>
         </div>
         <div class="md-ripple-container"></div>
       </md-list-item>
@@ -44,29 +45,29 @@
       </md-list-item>
       <md-list-item role="listitem">
         <div class="md-no-style md-list-item-inner">
-          <a routerLink="/test-management" routerLinkActive="active">测试实验室</a>
+          <a routerLink="/test-management" routerLinkActive="active">案例列表</a>
         </div>
         <div class="md-ripple-container"></div>
       </md-list-item>
     </md-list>
-    <side-menu></side-menu>
+    <!--<side-menu></side-menu>-->
   </md-sidenav>
 
   <md-toolbar color="primary">
+
     <button class="app-icon-button" (click)="sidenav.toggle()">
       <i class="material-icons app-toolbar-menu">menu</i>
     </button>
 
-    my-demo
+    <span>TestWa蛙测自动化测试平台（Beta）</span>
 
-    <span class="app-toolbar-filler"></span>
+    <!--<span class="app-toolbar-filler"></span>-->
   </md-toolbar>
 
   <div class="app-content">
     <md-card>
       <router-outlet></router-outlet>
     </md-card>
-
   </div>
 
 </md-sidenav-layout>

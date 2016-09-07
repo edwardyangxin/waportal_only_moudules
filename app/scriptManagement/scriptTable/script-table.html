@@ -3,7 +3,7 @@
     <header>
       <div class="ui-helper-clearfix">
         <button pButton type="button" (click)="onAddRecord()" label="上传脚本" style="float:left"></button>
-        <button pButton type="button" (click)="onDeleteRecord()" label="生成测试案例" style="float:left"></button>
+        <button pButton type="button" (click)="onAddCase()" label="生成测试案例" style="float:left"></button>
         <button pButton type="button" (click)="onDeleteRecord()" label="删除脚本" style="float:left"></button>
       </div>
     </header>
@@ -13,19 +13,93 @@
     <p-column field="createDate" header="上传时间" [filter]="true"></p-column>
     <p-column field="userName" header="上传者" [filter]="true"></p-column>
     <p-column header="操作" styleClass="col-button">
-      <template let-car="rowData">
+      <template let-record="rowData" pTemplate type="body">
         <button type="button" pButton (click)="selectRecord(record)" icon="fa-search"></button>
       </template>
     </p-column>
 </p-dataTable>
 
-<p-dialog header="上传测试脚本" [(visible)]="display" [modal]="modal">
+<p-dialog header="上传测试脚本" [(visible)]="displayNew" [modal]="modal">
   <script-upload-form></script-upload-form>
 </p-dialog>
 
-<script-editor></script-editor>
+<p-dialog header="生成案例" [(visible)]="displayCase" [modal]="modal">
+  <form>
+    <div class="form-group">
+      <label for="name">案例名称</label>
+      <input type="text" class="form-control" id="name"
+             required
+             [(ngModel)]="caseName" name="name"
+             #verifyName="ngModel" >
+      <div [hidden]="verifyName.valid || verifyName.pristine"
+           class="alert alert-danger">
+        Name is required
+      </div>
+    </div>
 
-<p-dialog header="生成案例" [(visible)]="display" [modal]="modal">
-  <new-case-list [selectedRecords]="selectedRecords"></new-case-list>
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-6">
+        <p-orderList [value]="selectedRecords" [listStyle]="{'height':'100px'}" [responsive]="true" header="新建案例">
+          <template let-record>
+            <div class="ui-helper-clearfix">{{record.name}}-{{record.appName}}</div>
+          </template>
+        </p-orderList>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-6">
+          <ul>
+            <li *ngFor="let record of selectedRecords" style="list-style-type:none">{{record.scriptName}}-{{record.id}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-default" (click)="addNewRecord()">编辑</button>
+  </form>
 </p-dialog>
-<new-case-list [selectedRecords]="selectedRecords"></new-case-list>
+
+<p-dialog header="编辑脚本" [(visible)]="displayScript" [modal]="modal">
+  <header>
+    <button type="text" (click)="uploadScript()" pButton icon="fa-external-link-square" label="保存"></button>
+  </header>
+  <codemirror [(ngModel)]="code" [config]="config"></codemirror>
+  <div [innerHTML]="code"></div>
+</p-dialog>
+
+<!--<codemirror [(ngModel)]="code" [config]="config"></codemirror>-->
+<!--<div [innerHTML]="code"></div>-->
+
+<!--<script-editor></script-editor>-->
+
+<!--<form>-->
+  <!--<div class="form-group">-->
+    <!--<label for="name">案例名称</label>-->
+    <!--<input type="text" class="form-control" id="name"-->
+           <!--required-->
+           <!--[(ngModel)]="caseName" name="name"-->
+           <!--#verifyName="ngModel" >-->
+    <!--<div [hidden]="verifyName.valid || verifyName.pristine"-->
+         <!--class="alert alert-danger">-->
+      <!--Name is required-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="ui-g">-->
+    <!--<div class="ui-g-12 ui-md-6">-->
+      <!--<p-orderList [value]="selectedRecords" [listStyle]="{'height':'100px'}" [responsive]="true" header="新建案例">-->
+        <!--<template let-record>-->
+          <!--<div class="ui-helper-clearfix">{{record.name}}-{{record.appName}}</div>-->
+        <!--</template>-->
+      <!--</p-orderList>-->
+    <!--</div>-->
+    <!--<div class="ui-g">-->
+      <!--<div class="ui-g-12 ui-md-6">-->
+        <!--<ul>-->
+          <!--<li *ngFor="let record of selectedRecords" style="list-style-type:none">{{record.scriptName}}-{{record.id}}</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<button type="button" class="btn btn-default" (click)="addNewRecord()">创建</button>-->
+<!--</form>-->

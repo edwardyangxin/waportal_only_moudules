@@ -19,6 +19,8 @@ export class ScriptTableService {
   private addRecordUrl = AppSettings.API_ENDPOINT+"/script/save";
   private deleteRecordUrl = AppSettings.API_ENDPOINT+"/script/delete";
   private appListUrl = AppSettings.API_ENDPOINT+"/app/list";
+  private caseAdd = AppSettings.API_ENDPOINT+"/case/add";
+  private getScript = AppSettings.API_ENDPOINT+"/script";
 
   getRecords(first:number,rows:number) : Observable<ScriptTable>{
     console.log(this.recordUrl);
@@ -34,6 +36,10 @@ export class ScriptTableService {
   private extractData(res: Response) {
     let body = res.json();
     return body || { };
+  }
+
+  private extractText(res: Response) {
+    return res.text();
   }
 
   private handleError (error: any) {
@@ -58,10 +64,10 @@ export class ScriptTableService {
 
   deleteRecords(selectedRecords:ScriptTableEntity[]) {
     console.log(this.deleteRecordUrl);
-    let ids = new Array<number>();
+    let ids = new Array<string>();
     selectedRecords.forEach(record => {
       ids.push(record.id);
-    })
+    });
     let body = JSON.stringify({ ids });
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -73,6 +79,40 @@ export class ScriptTableService {
   getAppList() : Observable<AppList> {
     console.log(this.appListUrl);
     return this.http.get('mockData/appList.json').map(this.extractData).catch(this.handleError);
+  }
+
+  addNewCase(caseName:string, selectedRecords:ScriptTableEntity[]) {
+    console.log(this.caseAdd);
+    // let caseName = caseName;
+    let scriptIds = new Array<string>();
+    selectedRecords.forEach(record => {
+      scriptIds.push(record.id);
+    });
+    let body = JSON.stringify({ caseName, scriptIds });
+    console.log(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    // return this.http.post(this.caseAdd, body, options).map(this.extractData).catch(this.handleError);
+    return;
+  }
+
+  getScriptCode(record:ScriptTableEntity): Observable<string> {
+    let id = record.id;
+    let url = this.getScript+"/"+id;
+    console.log(url);
+    // return this.http.get(url).map(this.extractText).catch(this.handleError);
+    return this.http.get('mockData/script.py').map(this.extractText).catch(this.handleError);
+  }
+
+  uploadScript(id:string, code:string) {
+    let url = this.getScript+"/"+id+"/upload";
+    let script = code;
+    let body = JSON.stringify({ id, script });
+    console.log(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    // return this.http.post(url, body, options).map(this.extractData).catch(this.handleError);
+    return;
   }
 }
 

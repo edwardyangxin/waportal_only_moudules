@@ -1,5 +1,4 @@
-import {Component, NgZone} from "@angular/core";
-
+import {Component, NgZone, EventEmitter, Output} from "@angular/core";
 import {AppTableService} from "../appTableService";
 import {AppTableEntity} from "../appTableEntity";
 import {SelectItem, Dropdown} from "primeng/primeng";
@@ -22,6 +21,7 @@ export class AppUploadFormComponent{
   errorMessage: any;
   selectItems: SelectItem[];
   selectedItem: ProjectEntity;
+  @Output() onSubmit = new EventEmitter<boolean>();
 
   uploadFile: any;
   uploadProgress: number;
@@ -32,19 +32,20 @@ export class AppUploadFormComponent{
   };
 
   private record: AppTableEntity;
-  private submitted = false;
 
   constructor(private recordTableService:AppTableService) {
     //get project list
     this.selectItems = [];
     this.recordTableService.getProjectList().subscribe(projectList => {
-      projectList.records.forEach(project => this.selectItems.push({label:project.name, value:project}));
-      this.selectedItem = projectList.records[0];
+      console.log(projectList);
+      let records = projectList.records;
+      records.forEach(project => this.selectItems.push({label:project.name, value:project}));
+      this.selectedItem = records[0];
     },
       error =>  this.errorMessage = <any>error);
 
     // init form
-    this.record = new AppTableEntity(0,"","","","","","");
+    this.cleanRecord();
 
     //init upload data
     this.uploadProgress = 0;
@@ -62,13 +63,18 @@ export class AppUploadFormComponent{
       resp = JSON.parse(resp);
       this.uploadResponse = resp;
       console.log(this.uploadResponse);
-      this.record.id = resp.get("id");
+      this.record.id = resp.id;
     }
   }
 
   addNewRecord() {
     this.recordTableService.addNewRecord(this.record,this.selectedItem);
-    this.record = new AppTableEntity(0,"","","","","","");
+    this.cleanRecord();
+    this.onSubmit.emit(true);
+  }
+
+  cleanRecord() {
+    this.record = new AppTableEntity("","","","","","","","","","","");
   }
 
 }

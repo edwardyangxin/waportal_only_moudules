@@ -20,7 +20,7 @@
 </p-dataTable>
 
 <p-dialog header="上传应用" [(visible)]="display" [modal]="modal">
-  <app-upload-form></app-upload-form>
+  <app-upload-form (onSubmit)="onSubmit($event)"></app-upload-form>
 </p-dialog>
 
 

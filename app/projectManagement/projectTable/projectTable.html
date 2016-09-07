@@ -9,36 +9,13 @@
     <p-column field="name" header="项目"></p-column>
     <p-column field="userName" header="负责人"></p-column>
     <p-column field="createDate" header="创建时间"></p-column>
-    <footer>
-      <ul>
-        <li *ngFor="let record of selectedRecords" style="text-align: left">{{record.name + ' - ' + record.userName}}</li>
-      </ul>
-    </footer>
+    <!--<footer>-->
+      <!--<ul>-->
+        <!--<li *ngFor="let record of selectedRecords" style="text-align: left">{{record.name + ' - ' + record.userName}}</li>-->
+      <!--</ul>-->
+    <!--</footer>-->
 </p-dataTable>
 
 <p-dialog header="创建项目" [(visible)]="display" [closable]="true" [resizable]="false" [responsive]="true">
-  <project-new-form></project-new-form>
-  <!--<footer>-->
-    <!--<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">-->
-      <!--<button type="button" pButton icon="fa-close" (click)="display=false" label="No"></button>-->
-      <!--<button type="button" pButton icon="fa-check" (click)="display=false" label="Yes"></button>-->
-    <!--</div>-->
-  <!--</footer>-->
+  <project-new-form (onSubmit)="onSubmit($event)"></project-new-form>
 </p-dialog>
-
-<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade">
-  <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="record">
-    <div class="ui-grid-row">
-      <div class="ui-grid-col-4"><label for="vin">Vin</label></div>
-      <div class="ui-grid-col-8"><input pInputText id="vin" [(ngModel)]="record.name" /></div>
-    </div>
-  </div>
-  <footer>
-    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-      <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
-    </div>
-  </footer>
-</p-dialog>
-
-<!--<project-new-form></project-new-form>-->

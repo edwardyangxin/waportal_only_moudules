@@ -1,10 +1,9 @@
-import {OnInit, Component} from "@angular/core";
-
-
-import {DataTable, LazyLoadEvent, Message, Button, Dialog, Header, Column} from 'primeng/primeng';
+import {OnInit, Component, OnDestroy} from "@angular/core";
+import {DataTable, LazyLoadEvent, Button, Dialog, Header, Column} from "primeng/primeng";
 import {AppTableEntity} from "./appTableEntity";
 import {AppTableService} from "./appTableService";
 import {AppUploadFormComponent} from "./appUploadForm/app-upload-form.component";
+import {Subscription} from "rxjs/Rx";
 
 @Component({
   moduleId:module.id,
@@ -15,20 +14,26 @@ import {AppUploadFormComponent} from "./appUploadForm/app-upload-form.component"
   // styleUrls: ['./appTable.scss'],
   templateUrl: './appTable.html'
 })
-export class AppTableComponent implements OnInit{
+export class AppTableComponent implements OnInit, OnDestroy{
   errorMessage: string;
   records: AppTableEntity[];
   selectedRecords: AppTableEntity[];
   display: boolean = false;
   totalRecords: number;
-  modal : boolean = false;
-  lazyRecords:AppTableEntity[];
+  subscription: Subscription;
+
+  //page info
+  rows: number = 20;
 
   constructor(private tableService: AppTableService) {
   }
 
   ngOnInit() {
-    this.getRecords(0,20);
+    this.getRecords(0,this.rows,null,"","");
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onAddRecord() {
@@ -36,19 +41,20 @@ export class AppTableComponent implements OnInit{
     this.display = true;
   }
 
+  onSubmit(){
+    console.log("reload table!");
+    this.getRecords(0,this.rows, null,"","");
+  }
+
   onDeleteRecord() {
-    this.tableService.deleteRecords(this.selectedRecords);
-    this.getRecords(0,20);
+    this.tableService.deleteRecords(this.selectedRecords).subscribe(resp => console.log(resp),error =>  console.log(error));
+    this.getRecords(0,this.rows,null,"","");
     this.selectedRecords = [];
   }
 
-  private getRecords(first:number,rows:number) {
-    this.tableService.getRecords(first,rows).subscribe(recordTable => {this.records = recordTable.records; this.totalRecords = recordTable.totalRecords},
+  getRecords(first:number,rows:number, filters: Map<string,Array<string>>, sortField:string, sortOrder:string) {
+    this.subscription = this.tableService.getRecords(first,rows, filters, sortField, sortOrder).subscribe(recordTable => {this.records = recordTable.records; this.totalRecords = recordTable.totalRecords},
       error =>  this.errorMessage = <any>error);
-    // this.tableService.getRecords(first,rows).subscribe(recordTable => this.records = recordTable.records,
-    //   error =>  this.errorMessage = <any>error);
-    // this.records = [new ProjectTable('1','1','1'),new ProjectTable('2','2','2')]
-    // this.totalRecords = 200;
   }
 
   loadRecordLazy(event: LazyLoadEvent) {
@@ -61,10 +67,6 @@ export class AppTableComponent implements OnInit{
     //event.sortOrder = Sort order as number, 1 for asc and -1 for dec
     //filters: FilterMetadata object having field as key and filter value, filter matchMode as value
 
-    this.getRecords(first,rows);
-    //imitate db connection over a network
-    // setTimeout(() => {
-    //   this.records = this.lazyRecords.slice(event.first, (event.first + event.rows));
-    // }, 250);
+    this.getRecords(first,rows,null,"","");
   }
 }

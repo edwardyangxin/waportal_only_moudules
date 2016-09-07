@@ -3,12 +3,13 @@
  */
 export class TestTableEntity {
   constructor(
-      public caseName: string,
+      public id:string,
+      public name: string,
       public appName: string,
-      public appVersion: string,
-      public os: string,
-      public createdTime: string,
-      public createdBy: string,
-      public status: string
+      public appversion: string,
+      public type: string,
+      public createDate: string,
+      public userName: string
+      // public status: string
   ) { }
 }

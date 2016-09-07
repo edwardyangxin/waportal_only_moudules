@@ -1,11 +1,13 @@
 import {OnInit, Component} from "@angular/core";
-
-import {DataTable, LazyLoadEvent, Message, Button, Dialog, Header, Column} from 'primeng/primeng';
+import {DataTable, LazyLoadEvent, Button, Dialog, Header, Column} from "primeng/primeng";
 import {ScriptTableEntity} from "./script-table-entity";
 import {ScriptTableService} from "./script-table-service";
 import {ScriptUploadFormComponent} from "./scriptUploadForm/script-upload-form.component";
 import {ScriptEditorComponent} from "./scriptEditor/script-editor.component";
 import {NewCaseListComponent} from "./newCaseList/new-case-list.component";
+import {Codemirror} from 'ng2-codemirror';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/python/python';
 
 
 @Component({
@@ -13,7 +15,7 @@ import {NewCaseListComponent} from "./newCaseList/new-case-list.component";
   selector: 'script-table',
   pipes: [],
   providers: [ScriptTableService],
-  directives: [ScriptUploadFormComponent, ScriptEditorComponent, NewCaseListComponent,DataTable,Column,Button,Header,Dialog],
+  directives: [ScriptUploadFormComponent, ScriptEditorComponent, NewCaseListComponent,DataTable,Column,Button,Header,Dialog,Codemirror],
   // styleUrls: ['./scriptTable.scss'],
   templateUrl: './script-table.html'
 })
@@ -21,11 +23,21 @@ export class ScriptTableComponent implements OnInit{
   errorMessage: string;
   records: ScriptTableEntity[];
   selectedRecords: ScriptTableEntity[];
-  display: boolean = false;
+  displayNew: boolean = false;
+  displayCase: boolean = false;
+  displayScript: boolean = false;
+  caseName: string;
   totalRecords: number;
-  modal : boolean = false;
-  lazyRecords:ScriptTableEntity[];
-  msgs: Message[] = [];
+  code:string = "";
+  id: string = "";
+  // Configuration object
+  config = {
+    lineNumbers: true,
+    mode: {
+      name: 'javascript',
+      json: true
+    }
+  };
 
   constructor(private tableService: ScriptTableService) {
   }
@@ -36,7 +48,26 @@ export class ScriptTableComponent implements OnInit{
 
   onAddRecord() {
     console.log("add! popup window");
-    this.display = true;
+    this.displayNew = true;
+  }
+
+  onAddCase() {
+    console.log("add! popup window");
+    this.displayCase = true;
+  }
+
+  selectRecord(record:ScriptTableEntity) {
+    console.log(record);
+    this.code = "";
+    this.id = "";
+    this.tableService.getScriptCode(record).subscribe(text => this.code = text, error =>  this.errorMessage = <any>error);
+    this.id = record.id;
+    this.displayScript = true;
+  }
+
+  uploadScript() {
+    console.log("upload " + this.id);
+    this.tableService.uploadScript(this.id, this.code);
   }
 
   onDeleteRecord() {
@@ -45,13 +76,17 @@ export class ScriptTableComponent implements OnInit{
     this.selectedRecords = [];
   }
 
+  addNewRecord() {
+    this.tableService.addNewCase(this.caseName,this.selectedRecords);
+    // to be added : close popup window & clear selected scripts
+    this.displayCase = false;
+    this.selectedRecords = [];
+    this.caseName = "";
+  }
+
   private getRecords(first:number,rows:number) {
     this.tableService.getRecords(first,rows).subscribe(recordTable => {this.records = recordTable.records; this.totalRecords = recordTable.totalRecords},
       error =>  this.errorMessage = <any>error);
-    // this.tableService.getRecords(first,rows).subscribe(recordTable => this.records = recordTable.records,
-    //   error =>  this.errorMessage = <any>error);
-    // this.records = [new ProjectTable('1','1','1'),new ProjectTable('2','2','2')]
-    // this.totalRecords = 200;
   }
 
   loadRecordLazy(event: LazyLoadEvent) {
@@ -65,9 +100,5 @@ export class ScriptTableComponent implements OnInit{
     //filters: FilterMetadata object having field as key and filter value, filter matchMode as value
 
     this.getRecords(first,rows);
-    //imitate db connection over a network
-    // setTimeout(() => {
-    //   this.records = this.lazyRecords.slice(event.first, (event.first + event.rows));
-    // }, 250);
   }
 }

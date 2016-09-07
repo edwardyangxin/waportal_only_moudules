@@ -1,21 +1,38 @@
 <p-dataTable [value]="records" selectionMode="multiple" [(selection)]="selectedRecords" [rows]="20" [paginator]="true"
              [lazy]="true" [totalRecords]="totalRecords" (onLazyLoad)="loadRecordLazy($event)">
-    <header>
-      <div class="ui-helper-clearfix">
-        <button pButton type="button" (click)="onAddRecord()" label="刷新" style="float:left"></button>
-        <button pButton type="button" (click)="onDeleteRecord()" label="删除" style="float:left"></button>
-      </div>
-    </header>
-    <p-column field="caseName" header="测试案例"></p-column>
-    <p-column field="appName" header="应用"></p-column>
-    <p-column field="appVersion" header="应用版本"></p-column>
-    <p-column field="os" header="平台类型"></p-column>
-    <p-column field="createdTime" header="创建时间"></p-column>
-    <p-column field="createdBy" header="创建者"></p-column>
-    <p-column header="操作" styleClass="col-button">
-      <template let-car="rowData">
-        <button type="button" pButton (click)="selectRecord(record)" icon="fa-search"></button>
-      </template>
-    </p-column>
+  <header>
+    <div class="ui-helper-clearfix">
+      <!--<button pButton type="button" (click)="onAddRecord()" label="刷新" style="float:left"></button>-->
+      <button pButton type="button" (click)="onDeleteRecord()" label="删除" style="float:left"></button>
+    </div>
+  </header>
+  <p-column field="name" header="测试案例"></p-column>
+  <p-column field="appName" header="应用"></p-column>
+  <p-column field="appVersion" header="应用版本"></p-column>
+  <p-column field="type" header="平台类型"></p-column>
+  <p-column field="createDate" header="创建时间"></p-column>
+  <p-column field="userName" header="创建者"></p-column>
+  <p-column header="操作" styleClass="col-button">
+    <template let-record="rowData" pTemplate type="body">
+      <button type="button" pButton (click)="selectRecord(record)" icon="fa-search"></button>
+    </template>
+  </p-column>
 </p-dataTable>
 
+<p-dialog header="选择设备" [(visible)]="displayDeployTask" [modal]="modal">
+  <header>
+    <button type="text" (click)="deployCase()" pButton icon="fa-external-link-square" label="部署测试"></button>
+  </header>
+
+  <p-dataTable [value]="deviceTable" selectionMode="multiple" [(selection)]="selectedDevices" [rows]="50" [paginator]="true"
+               [lazy]="true" [totalRecords]="totalDevices" (onLazyLoad)="loadRecordLazy($event)">
+    <p-column field="brand" header="品牌"></p-column>
+    <p-column field="model" header="型号"></p-column>
+    <p-column field="type" header="类型"></p-column>
+    <p-column field="version" header="版本"></p-column>
+    <p-column field="cpuabi" header="设备号"></p-column>
+    <p-column field="status" header="状态"></p-column>
+    <p-column field="host" header="主机"></p-column>
+  </p-dataTable>
+
+</p-dialog>

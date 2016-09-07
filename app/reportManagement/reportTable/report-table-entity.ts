@@ -3,10 +3,11 @@
  */
 export class ReportTableEntity {
   constructor(
-      public reportName: string,
+      public id: string,
+      public name: string,
       public appName: string,
       public appVersion: string,
-      public devices: string,
+      public devices: Array<string>,
       public success: string,
       public fail: string,
       public status: string

@@ -1,13 +1,19 @@
 /**
  * Created by yxin on 8/17/2016.
  */
-export class DeviceEntity {
+export class DeviceTableEntity {
   constructor(
-      public deviceBrand: string,
-      public deviceModel: string,
-      public deviceVersion: string,
-      public deviceID: string,
-      public deviceStatus: string,
-      public deviceApps: string
+    public id: string,
+    public type: string,
+    public status:string,
+    public cpuabi: string,
+    public sdk: string,
+    public osName: string,
+    public width: string,
+    public height: string,
+    public brand: string,
+    public model: string,
+    public version: string,
+    public host: string
   ) { }
 }
