@@ -19,6 +19,7 @@ export class AppTableComponent implements OnInit, OnDestroy{
   records: AppTableEntity[];
   selectedRecords: AppTableEntity[];
   display: boolean = false;
+  widthDialog: number = 500;
   totalRecords: number;
   subscription: Subscription;
 
