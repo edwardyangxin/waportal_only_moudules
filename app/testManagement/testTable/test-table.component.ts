@@ -43,9 +43,11 @@ export class TestTableComponent implements OnInit{
   }
 
   onDeleteRecord() {
-    this.tableService.deleteRecords(this.selectedRecords).subscribe(resp => console.log(resp),error =>  console.log(error));
-    this.getRecords(0,this.rows,null,"","");
-    this.selectedRecords = [];
+    this.tableService.deleteRecords(this.selectedRecords).subscribe(resp => {
+      console.log(resp);
+      this.getRecords(0,this.rows, null,"","");
+      this.selectedRecords = [];
+    },error =>  console.log(error));
   }
 
   selectRecord(record:TestTableEntity) {

@@ -68,9 +68,11 @@ export class AppUploadFormComponent{
   }
 
   addNewRecord() {
-    this.recordTableService.addNewRecord(this.record,this.selectedItem).subscribe(resp => console.log(resp),error =>  console.log(error));
-    this.cleanRecord();
-    this.onSubmit.emit(true);
+    this.recordTableService.addNewRecord(this.record,this.selectedItem).subscribe(resp => {
+      console.log(resp);
+      this.cleanRecord();
+      this.onSubmit.emit(true);
+    },error =>  console.log(error));
   }
 
   cleanRecord() {

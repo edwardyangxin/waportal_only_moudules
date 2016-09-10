@@ -28,9 +28,11 @@ export class ProjectFormComponent implements OnDestroy{
   }
 
   addNewRecord() {
-    this.subscription = this.recordTableService.addNewRecord(this.record).subscribe(resp => console.log(resp),error =>  console.log(error));
-    this.cleanRecord();
-    this.onSubmit.emit(true);
+    this.subscription = this.recordTableService.addNewRecord(this.record).subscribe(resp => {
+      console.log(resp);
+      this.cleanRecord();
+      this.onSubmit.emit(true);
+    },error =>  console.log(error));
   }
 
   cleanRecord() {

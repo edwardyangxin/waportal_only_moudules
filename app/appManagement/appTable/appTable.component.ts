@@ -47,9 +47,11 @@ export class AppTableComponent implements OnInit, OnDestroy{
   }
 
   onDeleteRecord() {
-    this.tableService.deleteRecords(this.selectedRecords).subscribe(resp => console.log(resp),error =>  console.log(error));
-    this.getRecords(0,this.rows,null,"","");
-    this.selectedRecords = [];
+    this.tableService.deleteRecords(this.selectedRecords).subscribe(resp => {
+      console.log(resp);
+      this.getRecords(0,this.rows, null,"","");
+      this.selectedRecords = [];
+    },error =>  console.log(error));
   }
 
   getRecords(first:number,rows:number, filters: Map<string,Array<string>>, sortField:string, sortOrder:string) {

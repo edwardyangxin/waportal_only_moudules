@@ -86,17 +86,21 @@ export class ScriptTableComponent implements OnInit{
   }
 
   onDeleteRecord() {
-    this.tableService.deleteRecords(this.selectedRecords).subscribe(resp => console.log(resp),error =>  console.log(error));
-    this.getRecords(0,this.rows,null,"","");
-    this.selectedRecords = [];
+    this.tableService.deleteRecords(this.selectedRecords).subscribe(resp => {
+      console.log(resp);
+      this.getRecords(0,this.rows, null,"","");
+      this.selectedRecords = [];
+    },error =>  console.log(error));
   }
 
   addNewCase() {
-    this.tableService.addNewCase(this.caseName,this.selectedRecords).subscribe(resp => console.log(resp),error =>  console.log(error));
-    // to be added : close popup window & clear selected scripts
-    this.displayCase = false;
-    this.selectedRecords = [];
-    this.caseName = "";
+    this.tableService.addNewCase(this.caseName,this.selectedRecords).subscribe(resp => {
+      console.log(resp);
+      // to be added : close popup window & clear selected scripts
+      this.displayCase = false;
+      this.selectedRecords = [];
+      this.caseName = "";
+    },error =>  console.log(error));
   }
 
   getRecords(first:number,rows:number, filters: Map<string,Array<string>>, sortField:string, sortOrder:string) {
