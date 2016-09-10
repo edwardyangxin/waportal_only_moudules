@@ -17,15 +17,14 @@ export class DeviceTableService {
   private addRecordUrl = AppSettings.API_ENDPOINT+"/device/save";
   private deleteRecordUrl = AppSettings.API_ENDPOINT+"/device/delete";
 
-  getRecords(first:number,rows:number) : Observable<DeviceTable>{
+  getRecords(first:number,rows:number,filters: Map<string,Array<string>>, sortField:string, sortOrder:string) : Observable<DeviceTable>{
     console.log(this.recordUrl);
-    let body = JSON.stringify({ first,rows });
+    let body = JSON.stringify({ first,rows, filters, sortField, sortOrder });
     console.log(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    // return this.http.post(this.recordUrl, body, options).map(this.extractData).catch(this.handleError);
-    return this.http.get('mockData/devices.json').map(this.extractData).catch(this.handleError);
-
+    return this.http.post(this.recordUrl, body, options).map(this.extractData).catch(this.handleError);
+    // return this.http.get('mockData/devices.json').map(this.extractData).catch(this.handleError);
   }
 
   private extractData(res: Response) {

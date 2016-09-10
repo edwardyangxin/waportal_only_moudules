@@ -25,8 +25,11 @@ export class ScriptTableComponent implements OnInit{
   records: ScriptTableEntity[];
   selectedRecords: ScriptTableEntity[];
   displayNew: boolean = false;
+  widthNew: number = 500;
   displayCase: boolean = false;
+  widthCase: number = 500;
   displayScript: boolean = false;
+  widthScript: number = 1000;
   caseName: string;
   totalRecords: number;
   subscription: Subscription;

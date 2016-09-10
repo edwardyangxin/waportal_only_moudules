@@ -19,9 +19,9 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   records: ProjectEntity[];
   selectedRecords: ProjectEntity[];
   display: boolean = false;
+  widthDialog: number = 300;
   totalRecords: number;
   subscription: Subscription;
-  subscriptionDelete: Subscription;
 
   //page info
   rows: number = 20;

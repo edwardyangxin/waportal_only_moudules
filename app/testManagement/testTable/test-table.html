@@ -19,7 +19,7 @@
   </p-column>
 </p-dataTable>
 
-<p-dialog header="选择设备" [(visible)]="displayDeployTask" [modal]="modal">
+<p-dialog header="选择设备" [(visible)]="displayDeployTask" [modal]="modal" [width]="widthDeploy">
   <header>
     <button type="text" (click)="deployCase()" pButton icon="fa-external-link-square" label="部署测试"></button>
   </header>

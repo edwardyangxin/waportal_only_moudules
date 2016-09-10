@@ -3,6 +3,7 @@ import {OnInit, Component} from "@angular/core";
 import {DataTable, LazyLoadEvent, Column, Dialog, Header, Button, Footer} from 'primeng/primeng';
 import {DeviceTableService} from "./device-table-service";
 import {DeviceTableEntity} from "./device-table-entity";
+import {Subscription} from "rxjs/Rx";
 
 @Component({
   moduleId: module.id,
@@ -19,16 +20,20 @@ export class DeviceTableComponent implements OnInit {
   selectedRecords: DeviceTableEntity[];
   // display: boolean = false;
   totalRecords: number;
+  subscription: Subscription;
+
+  //page info
+  rows: number = 50;
 
   constructor(private tableService: DeviceTableService) {
   }
 
   ngOnInit() {
-    this.getRecords(0,50);
+    this.getRecords(0,this.rows,null,"","");
   }
 
-  private getRecords(first:number,rows:number) {
-    this.tableService.getRecords(first,rows).subscribe(recordTable => {this.records = recordTable.records; this.totalRecords = recordTable.totalRecords},
+  getRecords(first:number,rows:number, filters: Map<string,Array<string>>, sortField:string, sortOrder:string) {
+    this.subscription = this.tableService.getRecords(first,rows, filters, sortField, sortOrder).subscribe(recordTable => {this.records = recordTable.records; this.totalRecords = recordTable.totalRecords},
       error =>  this.errorMessage = <any>error);
   }
 
@@ -42,6 +47,6 @@ export class DeviceTableComponent implements OnInit {
     //event.sortOrder = Sort order as number, 1 for asc and -1 for dec
     //filters: FilterMetadata object having field as key and filter value, filter matchMode as value
 
-    this.getRecords(first,rows);
+    this.getRecords(first,rows,null,"","");
   }
 }

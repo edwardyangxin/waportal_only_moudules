@@ -19,11 +19,11 @@
     </p-column>
 </p-dataTable>
 
-<p-dialog header="上传测试脚本" [(visible)]="displayNew" [modal]="modal">
+<p-dialog header="上传测试脚本" [(visible)]="displayNew" [modal]="modal" [width] = "widthNew">
   <script-upload-form (onSubmit)="onSubmit($event)"></script-upload-form>
 </p-dialog>
 
-<p-dialog header="生成案例" [(visible)]="displayCase" [modal]="modal">
+<p-dialog header="生成案例" [(visible)]="displayCase" [modal]="modal" [width] = "widthCase">
   <form>
     <div class="form-group">
       <label for="name">案例名称</label>
@@ -58,7 +58,7 @@
   </form>
 </p-dialog>
 
-<p-dialog header="编辑脚本" [(visible)]="displayScript" [modal]="modal" width="1000">
+<p-dialog header="编辑脚本" [(visible)]="displayScript" [modal]="modal" [width] = "widthScript">
   <header>
     <button type="text" (click)="uploadScript()" pButton icon="fa-external-link-square" label="保存"></button>
   </header>

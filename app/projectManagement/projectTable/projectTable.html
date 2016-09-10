@@ -17,6 +17,6 @@
     </footer>
 </p-dataTable>
 
-<p-dialog header="创建项目" [(visible)]="display" [closable]="true" [resizable]="false" [responsive]="true">
+<p-dialog header="创建项目" [(visible)]="display" [closable]="true" [resizable]="false" [responsive]="true" [width] = "widthDialog">
   <project-new-form (onSubmit)="onSubmit($event)"></project-new-form>
 </p-dialog>

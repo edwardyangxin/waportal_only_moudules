@@ -43,7 +43,7 @@
 
   <div class="form-group">
     <label for="app-upload-owned-by">选择项目：</label>
-    <p-dropdown [options]="selectItems" [(ngModel)]="selectedItem" id= "app-upload-owned-by" name="projects"></p-dropdown>
+    <p-dropdown [options]="selectItems" [(ngModel)]="selectedItem" id= "app-upload-owned-by" name="projects" [style]="{'width':'150px'}"></p-dropdown>
   </div>
 
   <button type="button" class="btn btn-default" (click)="addNewRecord()">创建</button>

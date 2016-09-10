@@ -26,6 +26,9 @@ export class TestTableComponent implements OnInit{
   rows: number = 50;
   //device popup
   displayDeployTask: boolean = false;
+  widthDeploy: number = 1000;
+  rowsDevice: number = 50;
+  subscriptionDevice: Subscription;
   deviceTable: DeviceTableEntity[];
   selectedDevices: DeviceTableEntity[];
   totalDevices: number;
@@ -40,6 +43,7 @@ export class TestTableComponent implements OnInit{
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    // this.subscriptionDevice.unsubscribe();
   }
 
   onDeleteRecord() {
@@ -56,7 +60,7 @@ export class TestTableComponent implements OnInit{
     this.id = "";
     this.selectedDevices = [];
     this.totalDevices = null;
-    this.deviceService.getRecords(0,50).subscribe(recordTable => {this.deviceTable = recordTable.records; this.totalDevices = recordTable.totalRecords}, error =>  this.errorMessage = <any>error);
+    this.subscriptionDevice = this.deviceService.getRecords(0,this.rowsDevice,null,"","").subscribe(recordTable => {this.deviceTable = recordTable.records; this.totalDevices = recordTable.totalRecords}, error =>  this.errorMessage = <any>error);
     this.id = record.id;
     this.displayDeployTask = true;
   }
